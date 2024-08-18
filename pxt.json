@@ -3,8 +3,8 @@
     "description": "",
     "dependencies": {
         "core": "*",
-        "v1": "*",
-        "fernsteuerung": "github:calliope-net/fernsteuerung#v1.4.0"
+        "fernsteuerung": "github:calliope-net/fernsteuerung#v1.4.0",
+        "v1": "*"
     },
     "files": [
         "main.blocks",

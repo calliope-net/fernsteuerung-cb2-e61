@@ -32,7 +32,6 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
 })
 btf.onReceivedDataChanged(function (receivedData, changed) {
     cb2.fahreJoystick(receivedData, 50)
-    cb2.fahrplanBuffer5Strecken(btf.btf_receivedBuffer19(), btf.e3aktiviert.m1)
     btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0x0000ff, true, true)
     btf.zeige5x5Buffer(receivedData)
     btf.zeige5x5Joystick(receivedData)
