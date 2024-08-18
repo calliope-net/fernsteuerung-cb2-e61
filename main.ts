@@ -10,7 +10,7 @@ input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     Ultraschall_Sensor_Knopf_A = !(Ultraschall_Sensor_Knopf_A)
 })
 input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
-	
+    Strecken()
 })
 cb2.onAbstandEvent(function (abstand_Sensor, abstand_Stop, cm) {
     cb2.buffer_Hindernis_ausweichen(btf.btf_receivedBuffer19(), abstand_Stop)
@@ -29,6 +29,9 @@ cb2.onAbstandEvent(function (abstand_Sensor, abstand_Stop, cm) {
         cb2.writecb2RgbLed(cb2.eRgbLed.lh, 0xffff00, abstand_Sensor)
     }
 })
+function Fahrplan () {
+    cb2.fahrplanBuffer5Strecken(btf.btf_receivedBuffer19(), btf.e3aktiviert.m1)
+}
 input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     Spur_Sensor_Knopf_B = !(Spur_Sensor_Knopf_B)
     Ultraschall_Sensor_Knopf_A = Spur_Sensor_Knopf_B
@@ -37,7 +40,10 @@ input.onButtonEvent(Button.B, btf.buttonEventValue(ButtonEvent.Hold), function (
     btf.buttonBhold()
 })
 btf.onReceivedDataChanged(function (receivedData, changed) {
+    Ultraschall_Sensor_Knopf_A = false
+    Spur_Sensor_Knopf_B = false
     cb2.fahreJoystick(receivedData, 50)
+    Fahrplan()
     btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0x0000ff, true, true)
     btf.zeige5x5Buffer(receivedData)
     btf.zeige5x5Joystick(receivedData)
