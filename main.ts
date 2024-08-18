@@ -1,16 +1,19 @@
-input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
-    Ultraschall_Sensor_Knopf_A = !(Ultraschall_Sensor_Knopf_A)
-})
-input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
+function Strecken () {
     cb2.fahreStrecke(192, 31, 40)
     cb2.fahreStrecke(64, 31, 40)
     cb2.fahreStrecke(255, 16, 20)
     cb2.fahreStrecke(192, 2, 150)
     cb2.fahreStrecke(192, 30, 150)
     cb2.fahreStrecke(1, 16, 20)
+}
+input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
+    Ultraschall_Sensor_Knopf_A = !(Ultraschall_Sensor_Knopf_A)
+})
+input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
+	
 })
 cb2.onAbstandEvent(function (abstand_Sensor, abstand_Stop, cm) {
-    cb2.buffer_Hindernis_ausweichen(btf.btf_receivedBuffer19(), false)
+    cb2.buffer_Hindernis_ausweichen(btf.btf_receivedBuffer19(), abstand_Stop)
     cb2.event_Hindernis_ausweichen(
     Ultraschall_Sensor_Knopf_A && !(Spur_Sensor_Knopf_B),
     abstand_Stop,
@@ -30,6 +33,9 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     Spur_Sensor_Knopf_B = !(Spur_Sensor_Knopf_B)
     Ultraschall_Sensor_Knopf_A = Spur_Sensor_Knopf_B
 })
+input.onButtonEvent(Button.B, btf.buttonEventValue(ButtonEvent.Hold), function () {
+    btf.buttonBhold()
+})
 btf.onReceivedDataChanged(function (receivedData, changed) {
     cb2.fahreJoystick(receivedData, 50)
     btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0x0000ff, true, true)
@@ -38,7 +44,7 @@ btf.onReceivedDataChanged(function (receivedData, changed) {
     pins.pinDigitalWrite(pins.pins_eDigitalPins(pins.eDigitalPins.C16), !(btf.getSchalter(receivedData, btf.e0Schalter.b0)))
 })
 cb2.onSpurEvent(function (links_hell, rechts_hell, abstand_Stop) {
-    cb2.buffer_Spur_folgen(btf.btf_receivedBuffer19(), false, false, false)
+    cb2.buffer_Spur_folgen(btf.btf_receivedBuffer19(), links_hell, rechts_hell, abstand_Stop)
     cb2.event_Spur_folgen(
     Spur_Sensor_Knopf_B,
     links_hell,
@@ -50,6 +56,9 @@ cb2.onSpurEvent(function (links_hell, rechts_hell, abstand_Stop) {
     abstand_Stop,
     cb2.cb2_zehntelsekunden(btf.ePause.s1)
     )
+})
+input.onButtonEvent(Button.A, btf.buttonEventValue(ButtonEvent.Hold), function () {
+    btf.buttonAhold()
 })
 let Spur_Sensor_Knopf_B = false
 let Ultraschall_Sensor_Knopf_A = false
