@@ -87,7 +87,7 @@ loops.everyInterval(700, function () {
         control.reset()
     } else if (btf.timeout(1000)) {
         btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0xff0000, true, true)
-    } else if (btf.timeout(1000, true)) {
+    } else if (btf.get_timeoutDisbled()) {
         btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0x00ff00)
     }
 })
