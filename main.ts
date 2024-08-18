@@ -49,6 +49,11 @@ btf.onReceivedDataChanged(function (receivedData, changed) {
     btf.zeige5x5Joystick(receivedData)
     pins.pinDigitalWrite(pins.pins_eDigitalPins(pins.eDigitalPins.C16), !(btf.getSchalter(receivedData, btf.e0Schalter.b0)))
 })
+function Konfiguration () {
+    btf.comment(btf.btf_text("GitHub: calliope-net/fernsteuerung-cb2-e61"))
+    btf.comment(btf.btf_text("Erweiterung: calliope-net/fernsteuerung"))
+    btf.comment(btf.btf_text(",\"yotta\":{\"config\":{\"microbit-dal\":{\"bluetooth\":{\"pairing_mode\":1,\"partial_flashing\":0}}}}"))
+}
 cb2.onSpurEvent(function (links_hell, rechts_hell, abstand_Stop) {
     cb2.buffer_Spur_folgen(btf.btf_receivedBuffer19(), links_hell, rechts_hell, abstand_Stop)
     cb2.event_Spur_folgen(
@@ -68,7 +73,6 @@ input.onButtonEvent(Button.A, btf.buttonEventValue(ButtonEvent.Hold), function (
 })
 let Spur_Sensor_Knopf_B = false
 let Ultraschall_Sensor_Knopf_A = false
-btf.comment(btf.btf_text("Erweiterung: calliope-net/fernsteuerung"))
 cb2.beimStart()
 btf.zeigeBIN(cb2.readVersionArray()[1], btf.ePlot.bin, 2)
 btf.zeigeBIN(cb2.readSpannung(), btf.ePlot.bcd, 4)
