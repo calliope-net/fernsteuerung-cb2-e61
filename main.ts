@@ -8,6 +8,7 @@ function Strecken () {
 }
 input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     Ultraschall_Sensor_Knopf_A = !(Ultraschall_Sensor_Knopf_A)
+    btf.set_timeoutDisbled(Ultraschall_Sensor_Knopf_A)
 })
 input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
     Strecken()
@@ -35,11 +36,16 @@ function Fahrplan () {
 input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     Spur_Sensor_Knopf_B = !(Spur_Sensor_Knopf_B)
     Ultraschall_Sensor_Knopf_A = Spur_Sensor_Knopf_B
+    btf.set_timeoutDisbled(Spur_Sensor_Knopf_B)
 })
 input.onButtonEvent(Button.B, btf.buttonEventValue(ButtonEvent.Hold), function () {
     btf.buttonBhold()
 })
 btf.onReceivedDataChanged(function (receivedData, changed) {
+    if (changed) {
+        cb2.writeMotorenStop()
+        cb2.writecb2RgbLeds(0x000000, false)
+    }
     Ultraschall_Sensor_Knopf_A = false
     Spur_Sensor_Knopf_B = false
     cb2.fahreJoystick(receivedData, 50)
@@ -87,7 +93,9 @@ loops.everyInterval(700, function () {
         control.reset()
     } else if (btf.timeout(1000)) {
         btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0xff0000, true, true)
-    } else if (btf.get_timeoutDisbled()) {
+        cb2.writeMotorenStop()
+        cb2.writecb2RgbLeds(0x000000, false)
+    } else if (btf.timeout(1000, true)) {
         btf.setLedColors(btf.btf_RgbLed(btf.eRgbLed.a), 0x00ff00)
     }
 })
